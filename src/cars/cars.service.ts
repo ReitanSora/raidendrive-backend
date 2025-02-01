@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { CreateCarDto } from "./dto/create-car.dto";
-
 import { PrismaClient } from "@prisma/client";
 import { CarDto } from "./dto/car.dto";
 import { UpdateCarDto } from "./dto/update-car.dto";
@@ -16,9 +15,10 @@ export class CarsService {
                 id: BigInt(idCar),
             },
             include: {
-                details: true,
+                car_detail: true,
             }
         });
+        console.log(typeof car)
 
         return new CarDto(car);
     }
@@ -26,7 +26,7 @@ export class CarsService {
     async getCars() {
         const cars = await prisma.car.findMany({
             include: {
-                details: true
+                car_detail: true
             }
         })
 
@@ -34,16 +34,19 @@ export class CarsService {
     }
 
     async getCarComparison(idCar1: string, idCar2: string) {
+
+        const ids = [BigInt(idCar1), BigInt(idCar2)];
+
         const result = await prisma.car.findMany({
             where: {
-                id: { in: [BigInt(idCar1), BigInt(idCar2)] },
+                id: { in: ids },
             },
             include: {
-                details: true
+                car_detail: true
             }
         })
 
-        return result.map(car => new CarDto(car));
+        return ids.map(id => result.find(car => car.id === id)).map(car => new CarDto(car));
     }
 
     async createCar(car: CreateCarDto) {
@@ -56,15 +59,39 @@ export class CarsService {
         });
         await prisma.car_detail.create({
             data: {
+                bodywork: car.bodywork,
+                door_number: car.door_number,
+                engine_name: car.engine_name,
+                engine_type: car.engine_type,
+                engine_position: car.engine_position,
+                engine_size_cc: car.engine_size_cc,
+                feeding: car.feeding,
+                max_power_hp: car.max_power_hp,
+                max_power_revolutions_rpm: car.max_power_revolutions_rpm,
+                max_torque_nm: car.max_torque_nm,
+                max_torque_revolutions_rpm: car.max_torque_revolutions_rpm,
+                traction: car.traction,
+                gearbox_type: car.gearbox_type,
+                number_of_gears: car.number_of_gears,
+                top_speed_kmh: car.top_speed_kmh,
+                acceleration_0_100_s: car.acceleration_0_100_s,
+                front_brake_type: car.front_brake_type,
+                rear_brake_type: car.rear_brake_type,
+                front_suspension_type: car.front_suspension_type,
+                rear_suspension_type: car.rear_suspension_type,
+                tires_type: car.tires_type,
+                front_tires_type: car.front_tires_type,
+                rear_tires_type: car.rear_tires_type,
+                color: car.color,
+                weight_k: car.weight_k,
                 car_id: newCar.id,
                 price: car.price,
-                mileage: car.mileage,
+                mileage_km: car.mileage_km,
                 description: car.description,
                 image_url: car.image_url,
                 status: car.status,
                 location: car.location,
                 fuel_type: car.fuel_type,
-                transmission: car.transmission
             }
         });
 
@@ -78,7 +105,7 @@ export class CarsService {
                 id: BigInt(id)
             },
             data: {
-                details: {
+                car_detail: {
                     updateMany: {
                         where: {
                             car_id: BigInt(id)
@@ -90,7 +117,7 @@ export class CarsService {
                 }
             },
             include: {
-                details: true,
+                car_detail: true,
             }
         });
 

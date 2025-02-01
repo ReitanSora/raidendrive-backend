@@ -1,12 +1,17 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsArray, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpdateCarDto {
 
     @IsNumber()
     @IsOptional()
-    price: number;
+    price?: number;
 
     @IsString()
     @IsOptional()
-    description: string;
+    description?: string;
+
+    @IsArray()
+    @IsOptional()
+    image_url?: any[];
+
 };

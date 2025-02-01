@@ -11,17 +11,6 @@ export class Log {
     user_id: string;
 
     @Prop({
-        trim: true,
-        default: 'client',
-    })
-    user_rol: string;
-
-    @Prop({
-        trim: true,
-    })
-    user_email: string;
-
-    @Prop({
         required: true,
         trim: true,
     })

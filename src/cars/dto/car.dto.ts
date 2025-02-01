@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { CarDetailDto } from "./car-detail.dto";
 
 
@@ -13,8 +13,8 @@ export class CarDto {
     @IsString()
     model: string;
 
-    @IsString()
-    year: string;
+    @IsNumber()
+    year: number;
 
     @IsNotEmpty()
     details: CarDetailDto;
@@ -24,6 +24,6 @@ export class CarDto {
         this.brand = car.brand;
         this.model = car.model;
         this.year = car.year;
-        this.details = new CarDetailDto(car.details);
+        this.details = new CarDetailDto(car.car_detail);
     }
 };

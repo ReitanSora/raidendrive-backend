@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,36 +7,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model user {
-//   id            BigInt   @id @default(autoincrement())
-//   user_id       String   
-//   user_nickname String
-//   user_email    String   @unique
-//   user_password String
-//   created_at    DateTime @default(now()) @db.Timestamptz()
-// }
+model car {
+  id         BigInt       @id @default(autoincrement())
+  brand      String
+  model      String
+  year       Int
+  createdAt  DateTime?    @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime?    @default(now()) @db.Timestamptz(6)
+  car_detail car_detail[]
+}
 
-// model car {
-//   id        BigInt       @id @default(autoincrement())
-//   brand     String
-//   model     String
-//   year      String
-//   timestamp DateTime     @default(now()) @db.Timestamptz()
-//   updatedAt DateTime     @updatedAt
-//   details   car_detail[]
-// }
+model car_detail {
+  id                         BigInt   @id @default(autoincrement())
+  car_id                     BigInt
+  bodywork                   String
+  door_number                Int
+  engine_name                String
+  engine_type                String
+  engine_position            String
+  engine_size_cc             Int
+  feeding                    String
+  max_power_hp               Int
+  max_power_revolutions_rpm  Int
+  max_torque_nm              Int
+  max_torque_revolutions_rpm Int
+  traction                   String
+  gearbox_type               String
+  number_of_gears            Int
+  top_speed_kmh              Int
+  acceleration_0_100_s       Decimal
+  front_brake_type           String
+  rear_brake_type            String
+  front_suspension_type      String
+  rear_suspension_type       String
+  tires_type                 String
+  front_tires_type           String
+  rear_tires_type            String
+  color                      String
+  weight_k                   Int
+  mileage_km                 Int
+  description                String?
+  image_url                  Json
+  status                     String
+  location                   String
+  fuel_type                  String
+  price                      Decimal
+  car                        car      @relation(fields: [car_id], references: [id])
+}
 
-// model car_detail {
-//   id           BigInt  @id @default(autoincrement())
-//   car_id       BigInt
-//   car          car     @relation(fields: [car_id], references: [id])
-//   mileage      Int
-//   description  String?
-//   image_url    String
-//   status       String
-//   location     String
-//   fuel_type    String
-//   transmission String
-//   price        Decimal
-// }
-
+model users {
+  id            BigInt    @id @default(autoincrement())
+  user_id       String    @db.VarChar(255)
+  user_nickname String    @db.VarChar(255)
+  user_email    String    @unique(map: "unique_user_email") @db.VarChar(255)
+  user_password String    @db.VarChar(255)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+}

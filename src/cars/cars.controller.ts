@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, UseInterceptors } from "@nestjs/common";
 import { CarsService } from "./cars.service";
 import { CreateCarDto } from "./dto/create-car.dto";
 import { CarsInterceptor } from "./interceptors/cars.interceptor";

@@ -4,7 +4,7 @@ import { Response } from "express";
 import { Model } from "mongoose";
 import { Observable } from "rxjs";
 import { catchError, tap } from 'rxjs/operators'
-import { Log } from "src/logs/log.schema";
+import { Log } from "src/logs/schema/log.schema";
 import { CustomRequest } from "src/types/custom-request.interface";
 
 @Injectable()
@@ -19,7 +19,6 @@ export class CarsInterceptor implements NestInterceptor {
 
         const logEntry = {
             user_id: req.user?.sub,
-            user_email: req.user?.email,
             user_agent: req.headers["user-agent"],
             status: null,
             severity: null,
@@ -40,7 +39,7 @@ export class CarsInterceptor implements NestInterceptor {
                 severity: severity,
                 res_content: resContent,
             });
-
+            
             newLog.save();
         };
 

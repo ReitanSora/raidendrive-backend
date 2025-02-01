@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { CarsController } from "./cars.controller";
 import { CarsService } from "./cars.service";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Log, LogSchema } from "src/logs/log.schema";
+import { Log, LogSchema } from "src/logs/schema/log.schema";
 import { AuthModule } from "src/auth/auth.module";
 //import { LoggerMiddleware } from "./middlewares/cars.middleware";
 
