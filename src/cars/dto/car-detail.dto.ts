@@ -4,6 +4,10 @@ export class CarDetailDto {
     
     @IsString()
     @IsNotEmpty()
+    manufactured_country_iso: string;
+
+    @IsString()
+    @IsNotEmpty()
     bodywork: string;
     
     @IsNumber()

@@ -7,7 +7,7 @@ import { LogsModule } from './logs/logs.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://mongo:27017/raidendrive'),
+    MongooseModule.forRoot('mongodb://localhost:27018/raidendrive'),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

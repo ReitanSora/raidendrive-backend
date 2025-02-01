@@ -15,6 +15,14 @@ export class CreateCarDto {
     year: number;
 
     @IsString()
+    @IsOptional()
+    manufactured_region_iso?: string;
+    
+    @IsString()
+    @IsOptional()
+    manufactured_country_iso?: string;
+
+    @IsString()
     @IsNotEmpty()
     bodywork: string;
     
@@ -120,7 +128,7 @@ export class CreateCarDto {
 
     @IsString()
     @IsOptional()
-    description: string;
+    description?: string;
 
     @IsArray()
     @ArrayNotEmpty()

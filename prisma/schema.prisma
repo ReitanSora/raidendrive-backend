@@ -18,8 +18,10 @@ model car {
 }
 
 model car_detail {
-  id                         BigInt   @id @default(autoincrement())
+  id                         BigInt  @id @default(autoincrement())
   car_id                     BigInt
+  manufactured_region_iso    String
+  manufactured_country_iso   String
   bodywork                   String
   door_number                Int
   engine_name                String
@@ -52,7 +54,7 @@ model car_detail {
   location                   String
   fuel_type                  String
   price                      Decimal
-  car                        car      @relation(fields: [car_id], references: [id])
+  car                        car     @relation(fields: [car_id], references: [id])
 }
 
 model users {

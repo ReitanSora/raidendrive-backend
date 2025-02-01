@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { CreateCarDto } from "./dto/create-car.dto";
+import { CreateCarDto } from "../dto/create-car.dto";
 import { PrismaClient } from "@prisma/client";
-import { CarDto } from "./dto/car.dto";
-import { UpdateCarDto } from "./dto/update-car.dto";
+import { CarDto } from "../dto/car.dto";
+import { UpdateCarDto } from "../dto/update-car.dto";
+import { Car } from "../classes/car.abstract";
 
 const prisma = new PrismaClient();
 
@@ -49,7 +50,7 @@ export class CarsService {
         return ids.map(id => result.find(car => car.id === id)).map(car => new CarDto(car));
     }
 
-    async createCar(car: CreateCarDto) {
+    async createCar(car: any) {
         const newCar = await prisma.car.create({
             data: {
                 brand: car.brand,
@@ -59,6 +60,8 @@ export class CarsService {
         });
         await prisma.car_detail.create({
             data: {
+                manufactured_region_iso: car.manufactured_region_iso || '',
+                manufactured_country_iso: car.manufactured_country_iso || '',
                 bodywork: car.bodywork,
                 door_number: car.door_number,
                 engine_name: car.engine_name,
