@@ -1,12 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { LogsService } from './logs.service';
-import { CreateLogDto } from './dto/create-log.dto';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { LogsInterceptor } from './interceptors/logs.interceptor';
 
 @Controller('/logs')
+@UseInterceptors(LogsInterceptor)
 export class LogsController {
   constructor(private readonly logsService: LogsService) { }
 
   @Get()
+  @UseGuards(AuthGuard)
   findAll(@Query('userId') userId: string) {
     return this.logsService.findAllLogsByUserId(userId);
   }
