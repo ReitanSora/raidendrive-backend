@@ -8,8 +8,8 @@ export class PaymentService {
   private readonly baseURL = 'https://api-m.sandbox.paypal.com';
 
   constructor() {
-    this.clientId = 'ASpYbpWtKl8rJOOfyL9LXx2_R-0Rs-wkk2veWHYtXu5_0bR-z2h2ZO3SrvmtKo7Oi6NckfArgh6cyCfq';
-    this.clientSecret = 'EKaUFP4GtPI3d5TmhVlOJuNvaJLHLTgUeyY8c0uSnKCFdcd9WGar0lcxrbMdKchHI2Gq5S4tTvCDvXk9';
+    this.clientId = '';
+    this.clientSecret = '';
   }
 
   private async generateAccessToken() {
