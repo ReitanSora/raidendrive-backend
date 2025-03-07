@@ -1,7 +1,7 @@
 import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CarDetailDto {
-    
+
     @IsString()
     @IsNotEmpty()
     bodywork: string;
@@ -146,7 +146,7 @@ export class CarDetailDto {
         this.gearbox_type = car[0].gearbox_type;
         this.number_of_gears = car[0].number_of_gears;
         this.top_speed_kmh = car[0].top_speed_kmh;
-        this.acceleration_0_100_s = car[0].acceleration_0_100_s;
+        this.acceleration_0_100_s = parseFloat(car[0].acceleration_0_100_s);
         this.front_brake_type = car[0].front_brake_type;
         this.rear_brake_type = car[0].rear_brake_type;
         this.front_suspension_type = car[0].front_suspension_type;
@@ -162,6 +162,6 @@ export class CarDetailDto {
         this.status = car[0].status;
         this.location = car[0].location;
         this.fuel_type = car[0].fuel_type;
-        this.price = car[0].price;
+        this.price = Number(car[0].price);
     }
 };

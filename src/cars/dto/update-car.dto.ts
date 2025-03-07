@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpdateCarDto {
 
@@ -10,8 +10,8 @@ export class UpdateCarDto {
     @IsOptional()
     description?: string;
 
-    @IsArray()
-    @IsOptional()
-    image_url?: any[];
+    // @IsArray()
+    // @IsOptional()
+    // image_url?: any[];
 
 };
