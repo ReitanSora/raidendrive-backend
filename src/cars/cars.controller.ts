@@ -9,7 +9,7 @@ import { AuthGuard } from "../auth/guards/auth.guard";
 @UseInterceptors(CarsInterceptor)
 export class CarsController {
 
-    constructor(private carsService: CarsService){}
+    constructor(private readonly carsService: CarsService) { }
 
     @Get()
     getAllCars() {
@@ -17,7 +17,8 @@ export class CarsController {
     }
 
     @Get('/comparison')
-    getCarComparison(@Query('idCar1') idCar1: string, @Query('idCar2') idCar2: string){
+    @UseGuards(AuthGuard)
+    getCarComparison(@Query('idCar1') idCar1: string, @Query('idCar2') idCar2: string) {
         return this.carsService.getCarComparison(idCar1, idCar2)
     }
 
@@ -28,19 +29,19 @@ export class CarsController {
 
     @Post()
     @UseGuards(AuthGuard)
-    createCar(@Body() car: CreateCarDto){
+    async createCar(@Body() car: CreateCarDto) {
         return this.carsService.createCar(car);
     }
 
     @Patch('/:id')
     @UseGuards(AuthGuard)
-    updateCar(@Param('id') id: string, @Body() car: UpdateCarDto){
+    updateCar(@Param('id') id: string, @Body() car: UpdateCarDto) {
         return this.carsService.updateCar(id, car);
     }
 
     @Delete('/:id')
     @UseGuards(AuthGuard)
-    deleteCar(@Param('id') id: string){
+    deleteCar(@Param('id') id: string) {
         return this.carsService.deleteCar(id);
     }
 

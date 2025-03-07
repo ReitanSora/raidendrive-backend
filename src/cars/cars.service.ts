@@ -4,12 +4,24 @@ import { PrismaClient } from "@prisma/client";
 import { CarDto } from "./dto/car.dto";
 import { UpdateCarDto } from "./dto/update-car.dto";
 
+/**
+ * Attribute allowing creation of a prisma client
+ */
 const prisma = new PrismaClient();
 
+/**
+ * Car management service
+ * Contains logic for creating, reading, modifying and deleting cars
+ */
 @Injectable()
 export class CarsService {
 
-    async getCar(idCar: string) {
+    /**
+     * Gets all information of a car, based on its id
+     * @param {string} idCar - Car ID to search for
+     * @returns {Promise<CarDto>} Promise that resolves an object of CarDto class
+     */
+    async getCar(idCar: string): Promise<CarDto> {
         const car = await prisma.car.findFirst({
             where: {
                 id: BigInt(idCar),
@@ -23,7 +35,11 @@ export class CarsService {
         return new CarDto(car);
     }
 
-    async getCars() {
+    /**
+     * Get all information of all cars registered in the database
+     * @returns {Promise<CarDto[]>} Promise that resolves an array of CarDto objects of all cars
+     */
+    async getCars(): Promise<CarDto[]> {
         const cars = await prisma.car.findMany({
             include: {
                 car_detail: true
@@ -33,7 +49,13 @@ export class CarsService {
         return cars.map(car => new CarDto(car));
     }
 
-    async getCarComparison(idCar1: string, idCar2: string) {
+    /**
+     * Get all information about the two cars to compare
+     * @param {string} idCar1 - Car ID of first car to compare
+     * @param {string} idCar2 - Car ID of second car to compare
+     * @returns {Promise<CarDto[]>} Promise that resolves an array of two CarDto objects with information of compared cars
+     */
+    async getCarComparison(idCar1: string, idCar2: string): Promise<CarDto[]> {
 
         const ids = [BigInt(idCar1), BigInt(idCar2)];
 
@@ -49,7 +71,12 @@ export class CarsService {
         return ids.map(id => result.find(car => car.id === id)).map(car => new CarDto(car));
     }
 
-    async createCar(car: CreateCarDto) {
+    /**
+     * Create car, based on CreateCarDto information
+     * @param {CreateCarDto} car - CreateCarDto class object
+     * @returns {Promise<string>} Promise that resolves a success message
+     */
+    async createCar(car: CreateCarDto): Promise<string> {
         const newCar = await prisma.car.create({
             data: {
                 brand: car.brand,
@@ -95,11 +122,16 @@ export class CarsService {
             }
         });
 
-
         return 'Car created successfully!'
     }
 
-    async updateCar(id: string, car: UpdateCarDto) {
+    /**
+     * Modify a car, selected by its id
+     * @param {string} id - Car ID of the car to be modified
+     * @param {UpdateCarDto} car - UpdateCarDto class object
+     * @returns {Promise<CarDto>} Promise that resolves an object of CarDto class
+     */
+    async updateCar(id: string, car: UpdateCarDto): Promise<CarDto> {
         const result = await prisma.car.update({
             where: {
                 id: BigInt(id)
@@ -124,7 +156,13 @@ export class CarsService {
         return new CarDto(result);
     }
 
-    async deleteCar(id: string) {
+    /**
+     * Delete a car, selected by its id
+     * @param {string} id - Car ID of the car to be deleted
+     * @returns {Promise<string>} Promise that resolves a success message
+     * @throws {Error} If the Car ID does not exists
+     */
+    async deleteCar(id: string): Promise<string> {
 
         try {
             await prisma.$transaction([
