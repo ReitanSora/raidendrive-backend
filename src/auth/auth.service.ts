@@ -9,8 +9,6 @@ export class AuthService {
 
   validateToken(token: string) {
     try {
-      console.log(token);
-      console.log(this.jwtSecret);
       const decoded = this.jwtService.verify(token, {
         secret: this.jwtSecret,
       });
