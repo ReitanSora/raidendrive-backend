@@ -32,15 +32,22 @@ export class CarsInterceptor implements NestInterceptor {
             res_content: null
         };
 
-        const saveLog = (statusCode: number, resContent: string, severity: string) => {
+        const saveLog = async (
+            statusCode: number,
+            resContent: string | object,
+            severity: string,
+        ) => {
             const newLog = new this.logModel({
                 ...logEntry,
                 status: statusCode,
                 severity: severity,
-                res_content: resContent,
+                res_content:
+                    typeof resContent === 'string'
+                        ? resContent
+                        : JSON.stringify(resContent),
             });
-            
-            newLog.save();
+
+            await newLog.save();
         };
 
         return next
